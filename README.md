@@ -6,6 +6,12 @@
 - النسخة التجريبية: https://cyberlab-ar-staging.connecttag.workers.dev
 - موارد مستقلة لكل بيئة: Worker للتطبيق، وWorker خاص للفحص، وD1 للحصص، وعنصر Turnstile مستقل.
 
+## استخدامه كقالب
+
+المصدر: [connecttag/cyberlab-ar](https://github.com/connecttag/cyberlab-ar). يمكنك بدء مستودع مستقل من زر **Use this template** في GitHub.
+
+قبل النشر في حسابك، غيّر أسماء Workers ومعرّف الحساب في ملفَي Wrangler، وأنشئ قاعدتَي حصص وعناصر Turnstile خاصة بك، ثم استبدل معرّفات D1 والمفاتيح العامة وأسماء المضيفين. إعدادات النشر المرفقة تخص نسخة ConnectTag المنشورة. أنشئ أسرارك المستقلة عبر stdin واتبع [دليل النشر](docs/deployment.md)؛ لا تعِد استخدام موارد النسخة الأصلية.
+
 ## التشغيل
 
 يتطلب Node.js ≥22.12، ويوصى بـNode 24 LTS. على جهاز التطوير الحالي يوجد Node 22.9 في PATH؛ يوفر `scripts/run.ps1` اختيارًا محليًا لنسخة Node المناسبة الموجودة ضمن runtime الخاص بـCodex دون تغيير إعدادات الجهاز.
