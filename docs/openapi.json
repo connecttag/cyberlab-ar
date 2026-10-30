@@ -1,0 +1,533 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CyberLab API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {},
+    "parameters": {}
+  },
+  "paths": {
+    "/api/v1/web-scans": {
+      "post": {
+        "description": "Read-only HTTP settings audit. Results are returned synchronously and are not stored.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4096
+                  },
+                  "turnstileToken": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  }
+                },
+                "required": [
+                  "url",
+                  "turnstileToken"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Observed response report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "schemaVersion": {
+                      "type": "number",
+                      "enum": [
+                        1
+                      ]
+                    },
+                    "reportId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "toolId": {
+                      "type": "string",
+                      "enum": [
+                        "web",
+                        "url",
+                        "browser",
+                        "logs",
+                        "bundle"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "engineVersion": {
+                      "type": "string",
+                      "maxLength": 100
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "complete",
+                        "partial",
+                        "failed"
+                      ]
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "ar": {
+                          "type": "string",
+                          "maxLength": 12000
+                        },
+                        "en": {
+                          "type": "string",
+                          "maxLength": 12000
+                        }
+                      },
+                      "required": [
+                        "ar",
+                        "en"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "import",
+                        "local",
+                        "demo"
+                      ]
+                    },
+                    "target": {
+                      "type": "string",
+                      "maxLength": 4096
+                    },
+                    "observations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string",
+                            "maxLength": 160
+                          },
+                          "label": {
+                            "type": "object",
+                            "properties": {
+                              "ar": {
+                                "type": "string",
+                                "maxLength": 12000
+                              },
+                              "en": {
+                                "type": "string",
+                                "maxLength": 12000
+                              }
+                            },
+                            "required": [
+                              "ar",
+                              "en"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "value": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "maxLength": 16000
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "direct",
+                              "inferred",
+                              "unavailable"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "label",
+                          "value",
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "maxItems": 500
+                    },
+                    "findings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ruleId": {
+                            "type": "string",
+                            "maxLength": 100
+                          },
+                          "state": {
+                            "type": "string",
+                            "enum": [
+                              "pass",
+                              "warn",
+                              "fail",
+                              "na",
+                              "untested"
+                            ]
+                          },
+                          "priority": {
+                            "type": "string",
+                            "enum": [
+                              "info",
+                              "low",
+                              "medium",
+                              "high"
+                            ]
+                          },
+                          "confidence": {
+                            "type": "string",
+                            "enum": [
+                              "direct",
+                              "inferred"
+                            ]
+                          },
+                          "title": {
+                            "type": "object",
+                            "properties": {
+                              "ar": {
+                                "type": "string",
+                                "maxLength": 12000
+                              },
+                              "en": {
+                                "type": "string",
+                                "maxLength": 12000
+                              }
+                            },
+                            "required": [
+                              "ar",
+                              "en"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "explanation": {
+                            "type": "object",
+                            "properties": {
+                              "ar": {
+                                "type": "string",
+                                "maxLength": 12000
+                              },
+                              "en": {
+                                "type": "string",
+                                "maxLength": 12000
+                              }
+                            },
+                            "required": [
+                              "ar",
+                              "en"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "remediation": {
+                            "type": "object",
+                            "properties": {
+                              "ar": {
+                                "type": "string",
+                                "maxLength": 12000
+                              },
+                              "en": {
+                                "type": "string",
+                                "maxLength": 12000
+                              }
+                            },
+                            "required": [
+                              "ar",
+                              "en"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "evidence": {
+                            "type": "string",
+                            "maxLength": 16000
+                          },
+                          "references": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "format": "uri"
+                            },
+                            "maxItems": 10
+                          },
+                          "snippets": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "platform": {
+                                  "type": "string",
+                                  "maxLength": 80
+                                },
+                                "code": {
+                                  "type": "string",
+                                  "maxLength": 6000
+                                }
+                              },
+                              "required": [
+                                "platform",
+                                "code"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "maxItems": 5
+                          }
+                        },
+                        "required": [
+                          "ruleId",
+                          "state",
+                          "priority",
+                          "confidence",
+                          "title",
+                          "explanation",
+                          "remediation",
+                          "evidence",
+                          "references",
+                          "snippets"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "maxItems": 200
+                    },
+                    "limitations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ar": {
+                            "type": "string",
+                            "maxLength": 12000
+                          },
+                          "en": {
+                            "type": "string",
+                            "maxLength": 12000
+                          }
+                        },
+                        "required": [
+                          "ar",
+                          "en"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "maxItems": 40
+                    },
+                    "author": {
+                      "type": "string",
+                      "maxLength": 200,
+                      "default": ""
+                    },
+                    "notes": {
+                      "type": "string",
+                      "maxLength": 12000,
+                      "default": ""
+                    }
+                  },
+                  "required": [
+                    "schemaVersion",
+                    "reportId",
+                    "toolId",
+                    "createdAt",
+                    "engineVersion",
+                    "status",
+                    "title",
+                    "source",
+                    "target",
+                    "observations",
+                    "findings",
+                    "limitations"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin or challenge rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid or unreachable target",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Quota exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

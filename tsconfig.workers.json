@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": ["node", "@cloudflare/vitest-plugin/types"]
+  },
+  "include": [
+    "apps/api/**/*.ts",
+    "apps/scanner/**/*.ts",
+    "packages/**/*.ts",
+    "tests/workers/**/*.ts",
+    "vitest.workers.config.ts"
+  ]
+}

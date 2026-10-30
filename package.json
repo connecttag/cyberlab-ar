@@ -1,0 +1,51 @@
+{
+  "name": "cyberlab-ar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @cyberlab/web",
+    "dev:workers": "wrangler dev -c apps/api/wrangler.jsonc -c apps/scanner/wrangler.jsonc --ip 127.0.0.1 --port 8788",
+    "build": "npm run build -w @cyberlab/web && tsx scripts/openapi.ts && tsx scripts/pwa.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.workers.json && tsc --noEmit -p tsconfig.tools.json",
+    "test": "vitest run --config vitest.config.ts && vitest run --config vitest.workers.config.ts",
+    "test:unit": "vitest run --config vitest.config.ts",
+    "test:workers": "vitest run --config vitest.workers.config.ts",
+    "test:browser": "npm run build && playwright test",
+    "types": "wrangler types apps/api/env.d.ts -c apps/api/wrangler.jsonc --env-interface AppEnv --strict-vars false && wrangler types apps/scanner/env.d.ts -c apps/scanner/wrangler.jsonc --env-interface ScannerEnv --include-runtime false --strict-vars false",
+    "db:local": "wrangler d1 migrations apply QUOTAS --local -c apps/api/wrangler.jsonc",
+    "check": "npm run typecheck && npm test && npm run build",
+    "deploy:scanner": "wrangler deploy -c apps/scanner/wrangler.jsonc",
+    "deploy": "npm run build && wrangler deploy -c apps/api/wrangler.jsonc"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "latest",
+    "hono": "latest",
+    "ipaddr.js": "latest",
+    "punycode": "latest",
+    "tldts": "latest",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "1.4.11",
+    "@playwright/test": "latest",
+    "@types/node": "^24.0.0",
+    "@types/punycode": "latest",
+    "jsonc-parser": "3.3.1",
+    "tsx": "latest",
+    "typescript": "latest",
+    "vitest": "5.0.5",
+    "wrangler": "4.156.0"
+  },
+  "overrides": {
+    "undici": "^7.30.1",
+    "sharp": "^0.35.5"
+  }
+}

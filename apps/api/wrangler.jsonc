@@ -1,0 +1,89 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "cyberlab-ar",
+  "account_id": "7be93e8acc0d7660d511b43474c85b8e",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "../web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+  "secrets": {
+    "required": ["TURNSTILE_SECRET", "QUOTA_HMAC_SECRET"]
+  },
+  "services": [
+    {
+      "binding": "SCANNER",
+      "service": "cyberlab-ar-scanner"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "QUOTAS",
+      "database_name": "cyberlab-ar-quota-db",
+      "database_id": "ec67a469-be21-4186-a66a-0c456f943f7a",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "APP_ENV": "production",
+    "LIVE_SCAN_ENABLED": "true",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFr3r9jIG-eCENFI",
+    "TURNSTILE_HOSTNAMES": "cyberlab-ar.connecttag.workers.dev",
+    "MAX_SCANS_PER_DAY": "1000",
+    "PER_IP_MINUTE": "5",
+    "PER_IP_DAY": "50",
+    "PER_HOST_MINUTE": "10",
+    "SELF_HOSTS": "cyberlab-ar.connecttag.workers.dev,cyberlab-ar-staging.connecttag.workers.dev",
+    "BUILD_VERSION": "1.0.0"
+  },
+  "triggers": {
+    "crons": ["23 * * * *"]
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": false
+    }
+  },
+  "env": {
+    "staging": {
+      "name": "cyberlab-ar-staging",
+      "services": [
+        {
+          "binding": "SCANNER",
+          "service": "cyberlab-ar-scanner-staging"
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "QUOTAS",
+          "database_name": "cyberlab-ar-quota-staging-db",
+          "database_id": "bdef9b91-1b64-4315-87e7-78206e43cb6c",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "vars": {
+        "APP_ENV": "staging",
+        "LIVE_SCAN_ENABLED": "true",
+        "TURNSTILE_SITE_KEY": "0x4AAAAAAFr3ZTFHDz6HQrJN",
+        "TURNSTILE_HOSTNAMES": "cyberlab-ar-staging.connecttag.workers.dev",
+        "MAX_SCANS_PER_DAY": "100",
+        "PER_IP_MINUTE": "5",
+        "PER_IP_DAY": "50",
+        "PER_HOST_MINUTE": "10",
+        "SELF_HOSTS": "cyberlab-ar.connecttag.workers.dev,cyberlab-ar-staging.connecttag.workers.dev",
+        "BUILD_VERSION": "1.0.0"
+      },
+      "secrets": {
+        "required": ["TURNSTILE_SECRET", "QUOTA_HMAC_SECRET"]
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "lib": ["ES2023"], "types": ["node"] },
+  "include": ["scripts/**/*.ts", "apps/api/env.d.ts", "apps/scanner/env.d.ts"]
+}

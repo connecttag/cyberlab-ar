@@ -1,0 +1,2 @@
+TURNSTILE_SECRET="replace-with-a-development-test-secret"
+QUOTA_HMAC_SECRET="replace-with-an-independent-random-secret-of-at-least-32-characters"

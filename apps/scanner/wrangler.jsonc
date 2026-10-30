@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "cyberlab-ar-scanner",
+  "account_id": "7be93e8acc0d7660d511b43474c85b8e",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": false
+    }
+  },
+  "vars": {
+    "SELF_HOSTS": "cyberlab-ar.connecttag.workers.dev,cyberlab-ar-staging.connecttag.workers.dev"
+  },
+  "env": {
+    "staging": {
+      "name": "cyberlab-ar-scanner-staging",
+      "vars": {
+        "SELF_HOSTS": "cyberlab-ar.connecttag.workers.dev,cyberlab-ar-staging.connecttag.workers.dev"
+      }
+    }
+  }
+}
